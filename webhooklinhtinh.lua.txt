@@ -1,0 +1,69 @@
+-- dont spam webhook i lazy delete 
+
+--// Webhook 
+local placeId = game.PlaceId
+local jobId = game.JobId
+
+local sea1 = 2753915549
+local sea2 = 4442272183
+local sea3 = 7449423635
+
+local CheckSea
+if placeId == sea1 then
+    CheckSea = "Sea 1"
+elseif placeId == sea2 then
+    CheckSea = "Sea 2"
+elseif placeId == sea3 then
+    CheckSea = "Sea 3"
+else
+    CheckSea = "unknown sea"
+end
+
+local Players = game:GetService("Players")
+local playerCount = #game:GetService("Players"):GetPlayers()
+
+local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
+local ExecutorUsing = identifyexecutor()
+local HttpService = game:GetService("HttpService")
+local Data =
+{
+    ["embeds"] = {
+        {
+            ["title"] = "**th vừa dùng kaitun là bố mày**",  -- Thêm phần tiêu đề vào đây
+            ["url"] = "https://www.roblox.com/users/10255186864"..game.Players.LocalPlayer.UserId,
+            ["description"] = "",  -- Xóa phần hiển thị UserId
+            ["color"] = tonumber("65280"),
+            ["thumbnail"] = {["url"] = "https://media.discordapp.net/attachments/1498901308558807174/1526942379532226580/meme_meo_cong_san.jpg?ex=6a58db68&is=6a5789e8&hm=c577a02bc25f61cc5782935fb8d03aae9012c02f8661a89cc0b2817641a5e00d&=&format=webp&width=569&height=569"},
+            ["fields"] = {
+                {
+                    ["name"] = "Name:",
+                    ["value"] = "```"..game.Players.LocalPlayer.DisplayName.."```",  -- Thêm tên người chơi vào đây
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "Acc:",
+                    ["value"] = "```"..game.Players.LocalPlayer.Name.."```",  -- Thêm tên tài khoản vào đây
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "Execute:",
+                    ["value"] = "```"..ExecutorUsing.."```",
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "Sea:",
+                    ["value"] = "```" .. CheckSea.."```", 
+                    ["inline"] = true
+                }
+            },
+            ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%S") -- Thêm thời gian vào đây
+        }
+    }
+}
+
+local Headers = {["Content-Type"] = "application/json"}
+local Encoded = HttpService:JSONEncode(Data)
+
+local Request = http_request or request or HttpPost or syn.request
+local Final = {Url = "https://discord.com/api/webhooks/1540255512141111358/MF4xJQ6n56i7QqWzvsKk_vxY8FUEpD0nkQR4QDB00rXqUa-IgohOiso-GqNVUNedvcgp", Body = Encoded, Method = "POST", Headers = Headers}
+Request(Final)
