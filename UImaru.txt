@@ -1,0 +1,196 @@
+-- Khởi tạo ScreenGui chính
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+
+ScreenGui.Name = "CustomScriptUI"
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+-- Khung chính của Menu
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(24, 24, 28)
+MainFrame.Position = UDim2.new(0.25, 0, 0.15, 0)
+MainFrame.Size = UDim2.new(0, 540, 0, 340)
+
+UICorner.CornerRadius = UDim.new(0, 8)
+UICorner.Parent = MainFrame
+
+-- Thanh Tab phía trên (General, Farm, Items, Combat, Settings)
+local TabContainer = Instance.new("ScrollingFrame")
+TabContainer.Parent = MainFrame
+TabContainer.BackgroundTransparency = 1
+TabContainer.Position = UDim2.new(0, 12, 0, 12)
+TabContainer.Size = UDim2.new(0, 516, 0, 32)
+TabContainer.CanvasSize = UDim2.new(0, 450, 0, 0)
+TabContainer.ScrollBarThickness = 0
+
+-- Nút Icon Home bên trái tab
+local HomeIconButton = Instance.new("TextButton")
+HomeIconButton.Parent = TabContainer
+HomeIconButton.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+HomeIconButton.Size = UDim2.new(0, 32, 0, 32)
+HomeIconButton.Text = "🏠"
+HomeIconButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+local HomeCorner = Instance.new("UICorner")
+HomeCorner.CornerRadius = UDim.new(0, 6)
+HomeCorner.Parent = HomeIconButton
+
+-- Hàm tạo các Tab Button
+local function createTab(name, xPos, active)
+	local btn = Instance.new("TextButton")
+	btn.Parent = TabContainer
+	btn.BackgroundColor3 = active and Color3.fromRGB(230, 230, 230) or Color3.fromRGB(40, 40, 45)
+	btn.Position = UDim2.new(0, xPos, 0, 0)
+	btn.Size = UDim2.new(0, 75, 0, 32)
+	btn.Font = Enum.Font.SourceSansSemibold
+	btn.Text = name
+	btn.TextColor3 = active and Color3.fromRGB(0, 0, 0) or Color3.fromRGB(180, 180, 180)
+	btn.TextSize = 13
+	
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 6)
+	corner.Parent = btn
+	return btn
+end
+
+createTab("General", 40, true)
+createTab("Farm", 120, false)
+createTab("Items", 200, false)
+createTab("Combat", 280, false)
+createTab("Settings", 360, false)
+
+-- Cột Trái (Home Menu & Các Toggle)
+local LeftColumn = Instance.new("ScrollingFrame")
+LeftColumn.Parent = MainFrame
+LeftColumn.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+LeftColumn.Position = UDim2.new(0, 12, 0, 56)
+LeftColumn.Size = UDim2.new(0, 250, 0, 270)
+LeftColumn.CanvasSize = UDim2.new(0, 0, 0, 350)
+LeftColumn.ScrollBarThickness = 2
+local LeftCorner = Instance.new("UICorner")
+LeftCorner.CornerRadius = UDim.new(0, 6)
+LeftCorner.Parent = LeftColumn
+
+-- Tiêu đề cột trái
+local LeftTitle = Instance.new("TextLabel")
+LeftTitle.Parent = LeftColumn
+LeftTitle.BackgroundTransparency = 1
+LeftTitle.Position = UDim2.new(0, 0, 0, 8)
+LeftTitle.Size = UDim2.new(1, 0, 0, 20)
+LeftTitle.Font = Enum.Font.SourceSansBold
+LeftTitle.Text = "🏡 Home Menu 🏡"
+LeftTitle.TextColor3 = Color3.fromRGB(220, 220, 220)
+LeftTitle.TextSize = 13
+
+-- Cột Phải (Settings & Các tính năng)
+local RightColumn = Instance.new("ScrollingFrame")
+RightColumn.Parent = MainFrame
+RightColumn.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+RightColumn.Position = UDim2.new(0, 274, 0, 56)
+RightColumn.Size = UDim2.new(0, 254, 0, 270)
+RightColumn.CanvasSize = UDim2.new(0, 0, 0, 350)
+RightColumn.ScrollBarThickness = 2
+local RightCorner = Instance.new("UICorner")
+RightCorner.CornerRadius = UDim.new(0, 6)
+RightCorner.Parent = RightColumn
+
+-- Tiêu đề cột phải
+local RightTitle = Instance.new("TextLabel")
+RightTitle.Parent = RightColumn
+RightTitle.BackgroundTransparency = 1
+RightTitle.Position = UDim2.new(0, 0, 0, 8)
+RightTitle.Size = UDim2.new(1, 0, 0, 20)
+RightTitle.Font = Enum.Font.SourceSansBold
+RightTitle.Text = "⚙️ Settings ⚙️"
+RightTitle.TextColor3 = Color3.fromRGB(220, 220, 220)
+RightTitle.TextSize = 13
+
+-- Hàm mẫu tạo Toggle Item
+local function createToggle(parent, yPos, text, enabled)
+	local toggleFrame = Instance.new("Frame")
+	toggleFrame.Parent = parent
+	toggleFrame.BackgroundColor3 = Color3.fromRGB(42, 42, 48)
+	toggleFrame.Position = UDim2.new(0, 8, 0, yPos)
+	toggleFrame.Size = UDim2.new(0, 234, 0, 36)
+	
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 6)
+	corner.Parent = toggleFrame
+	
+	local label = Instance.new("TextLabel")
+  label.Parent = toggleFrame
+  label.BackgroundTransparency = 1
+  label.Position = UDim2.new(0, 10, 0, 0)
+  label.Size = UDim2.new(0, 170, 1, 0)
+  label.Font = Enum.Font.SourceSans
+  label.Text = text
+  label.TextColor3 = Color3.fromRGB(200, 200, 200)
+  label.TextSize = 13
+  label.TextXAlignment = Enum.TextXAlignment.Left
+
+  -- Nút Tròn (Switch)
+  local switch = Instance.new("Frame")
+  switch.Parent = toggleFrame
+  switch.BackgroundColor3 = enabled and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(60, 60, 65)
+  switch.Position = UDim2.new(1, -30, 0.5, -10)
+  switch.Size = UDim2.new(0, 20, 0, 20)
+  
+  local switchCorner = Instance.new("UICorner")
+  switchCorner.CornerRadius = UDim.new(1, 0)
+  switchCorner.Parent = switch
+end
+
+-- Thêm các phần tử vào cột Trái
+createToggle(LeftColumn, 35, "Auto Farm Level", false)
+createToggle(LeftColumn, 78, "Enabled Dressrosa Quests", false)
+createToggle(LeftColumn, 121, "Enabled Zou Quests", false)
+
+-- Tiêu đề phụ (Xmas)
+local XmasLabel = Instance.new("TextLabel")
+XmasLabel.Parent = LeftColumn
+XmasLabel.BackgroundTransparency = 1
+XmasLabel.Position = UDim2.new(0, 0, 0, 164)
+XmasLabel.Size = UDim2.new(1, 0, 0, 20)
+XmasLabel.Font = Enum.Font.SourceSansBold
+XmasLabel.Text = "🎄 Xmas 🎄"
+XmasLabel.TextColor3 = Color3.fromRGB(150, 200, 150)
+XmasLabel.TextSize = 12
+
+createToggle(LeftColumn, 190, "Auto Farm Candy", false)
+createToggle(LeftColumn, 233, "Auto Collect Present", false)
+
+-- Thêm các phần tử vào cột Phải
+local TimerLabel = Instance.new("TextLabel")
+TimerLabel.Parent = RightColumn
+TimerLabel.BackgroundTransparency = 1
+TimerLabel.Position = UDim2.new(0, 0, 0, 32)
+TimerLabel.Size = UDim2.new(1, 0, 0, 15)
+TimerLabel.Font = Enum.Font.SourceSans
+TimerLabel.Text = "24 Second(s)"
+TimerLabel.TextColor3 = Color3.fromRGB(150, 150, 150)
+TimerLabel.TextSize = 11
+
+createToggle(RightColumn, 85, "Bring Mob [ Turn off if bug ]", true)
+createToggle(RightColumn, 128, "Enabled Fast Attack", true)
+createToggle(RightColumn, 171, "Enabled Bypass TP", false)
+createToggle(RightColumn, 214, "Disabled Damage Text", false)
+
+-- Nút thu nhỏ/mở lại Logo (Floating Icon giống hình)
+local ToggleButton = Instance.new("TextButton")
+ToggleButton.Parent = ScreenGui
+ToggleButton.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+ToggleButton.Position = UDim2.new(0, 50, 0, 250)
+ToggleButton.Size = UDim2.new(0, 48, 0, 48)
+ToggleButton.Text = "🤑"
+ToggleButton.TextSize = 20
+
+local ToggleButtonCorner = Instance.new("UICorner")
+ToggleButtonCorner.CornerRadius = UDim.new(0, 8)
+ToggleButtonCorner.Parent = ToggleButton
+
+-- Ẩn hiện menu khi bấm nút nổi
+ToggleButton.MouseButton1Click:Connect(function()
+	MainFrame.Visible = not MainFrame.Visible
+end)
